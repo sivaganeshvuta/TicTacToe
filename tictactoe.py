@@ -10,12 +10,12 @@ def display_board(b):
     print(" {} | {} | {} ".format(b[1],b[2],b[3]))
     print()
 
-def user_input():
+def user_input(pl1):
 
     marker = " "
 
     while marker!='x' and marker!='o':
-        marker = input("Player 1 - Choose x or o : ")
+        marker = input(f"\n{pl1} - Choose x or o : ")
 
         player1 = marker
 
@@ -26,21 +26,26 @@ def user_input():
 
     return (player1,player2)
 
-def first_turn():
+def first_turn(pl1="Player 1",pl2="Player 2"):
 
     flip = random.randint(0,1)
 
     if flip==0:
-        return "Player 1"
+        return pl1
     else:
-        return "Player 2"
+        return pl2
 
-def player_choice(board):
+def player_choice(board,turn,p):
     
     position = 0
 
     while position not in [1,2,3,4,5,6,7,8,9] or not space_check(board,position):
-        position = int(input("Choose Position 1-9 : "))
+        
+        try:
+            position = int(input(f"{turn} ({p}) Choose Position 1-9 : "))
+        except:
+            print("enter a valid input\n")
+    
 
     return position
 
@@ -82,19 +87,22 @@ def replay():
 
 # test_board = ['#','x','o','x','o','x','o','x','o','x']
 
-print("Welcome to TIC TAC TOE")
+print("Welcome to TIC TAC TOE !\n")
 
 while True:
 
     test_board = [' ']*10
 
-    p1,p2 = user_input()
+    pl1 = input("enter player 1 name : ")
+    pl2 = input("enter player 2 name : ")
 
-    turn = first_turn()
+    p1,p2 = user_input(pl1)
 
-    print(turn + " will start the game")
+    turn = first_turn(pl1,pl2)
 
-    select = input("are you ready to play y or n : ")
+    print("\n"+turn + " will start the game")
+
+    select = input("\nAre you ready to play y or n : ")
 
     if select =='y':
         game_on = True
@@ -103,44 +111,44 @@ while True:
 
     while game_on:
 
-        if turn=="Player 1":
+        if turn==pl1:
 
             display_board(test_board)
 
-            pos = player_choice(test_board)
+            pos = player_choice(test_board,turn,p1)
 
             place_marker(test_board,p1,pos)
 
             if win_check(test_board,p1):
                 display_board(test_board)
-                print("Player 1 Has Won")
+                print("Player 1 Has Won\n")
                 game_on = False
             else:
                 if full_check(test_board):
                     display_board(test_board)
-                    print("Tie Game")
+                    print("Tie Game\n")
                     game_on = False
                 else:
-                    turn="Player 2"
+                    turn=pl2
         else:
 
             display_board(test_board)
 
-            pos = player_choice(test_board)
+            pos = player_choice(test_board,turn,p2)
 
             place_marker(test_board,p2,pos)
 
             if win_check(test_board,p2):
                 display_board(test_board)
-                print("Player 2 Has Won")
+                print("Player 2 Has Won\n")
                 game_on = False
             else:
                 if full_check(test_board):
                     display_board(test_board)
-                    print("Tie Game")
+                    print("Tie Game\n")
                     game_on = False
                 else:
-                    turn="Player 1"
+                    turn=pl1
         
     if not replay():
         print("Exiting Game ...")
