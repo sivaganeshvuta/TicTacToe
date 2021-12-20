@@ -1,13 +1,17 @@
 import random
 
-def display_board(b):
+'''
+Tic Tac Toe Game 
+'''
+
+def display_board(board):
 
     print()
-    print(" {} | {} | {} ".format(b[7],b[8],b[9]))
+    print(" {} | {} | {} ".format(board[7],board[8],board[9]))
     print("---|---|---")
-    print(" {} | {} | {} ".format(b[4],b[5],b[6]))
+    print(" {} | {} | {} ".format(board[4],board[5],board[6]))
     print("---|---|---")
-    print(" {} | {} | {} ".format(b[1],b[2],b[3]))
+    print(" {} | {} | {} ".format(board[1],board[2],board[3]))
     print()
 
 def user_input(pl1):
@@ -38,18 +42,15 @@ def first_turn(pl1="Player 1",pl2="Player 2"):
 def player_choice(board,turn,p):
     
     position = 0
-
-    while position not in [1,2,3,4,5,6,7,8,9] or not space_check(board,position):
-        
+    while position not in [1,2,3,4,5,6,7,8,9] or not space_check(board,position):     
         try:
             position = int(input(f"{turn} ({p}) Choose Position 1-9 : "))
         except:
             print("enter a valid input\n")
-    
-
     return position
 
 def place_marker(board,mark,position):
+
     board[position]=mark
 
 def win_check(board,mark):
@@ -151,5 +152,6 @@ while True:
                     turn=pl1
         
     if not replay():
+
         print("Exiting Game ...")
         break
